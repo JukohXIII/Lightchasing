@@ -300,9 +300,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   rigidBody: {fileID: 6630793}
-  rotationSpeedMultiplier: 50
-  angularDamping: 5
-  rotationInertiaRate: 10
+  rotationSpeedMultiplier: 200
+  angularDamping: 20
+  accelerationRate: 25
+  decelerationRate: 0.0001
 --- !u!114 &6630798
 MonoBehaviour:
   m_ObjectHideFlags: 0

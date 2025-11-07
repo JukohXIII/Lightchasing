@@ -7,7 +7,10 @@ public class UnderwaterBuoyancyController : MonoBehaviour
     public float maxBuoyancy = 15f;          // Maximum buoyancy
     public float minBuoyancy = -5f;          // Minimum buoyancy
     public float buoyancyAdjustSpeed = 3f;   // QE adjustment speed
-    
+
+    [Header("Horizontal Movement Settings")]
+    public float maxLateralForce = 10f;      // Max lateral force for horizontal movement]
+    public float lateralForceMultiplier = 1.4f; // Multiplier for lateral force based on depth
     [Header("Depth Settings")]
     public float surfaceDepth = 0f;          // Water surface depth
     public float maxEffectiveDepth = 20f;    // Max depth for buoyancy effect
@@ -17,6 +20,8 @@ public class UnderwaterBuoyancyController : MonoBehaviour
     [SerializeField] private float currentBuoyancy = 0f;
     [SerializeField] private float currentDepth = 0f;
     [SerializeField] private float depthMultiplier = 1f;
+    [SerializeField] private float lateralForce = 0f;
+    [SerializeField] private float currentVerticalSpeed = 0f;
     
     private Rigidbody2D FishRb;
     private float targetBuoyancy = 0f;
@@ -27,14 +32,21 @@ public class UnderwaterBuoyancyController : MonoBehaviour
         currentBuoyancy = baseBuoyancy; //current private set=0?
         targetBuoyancy = baseBuoyancy;
     }
-    
+
     void Update()
     {
         HandleBuoyancyInput();
         CalculateDepthEffect();
         ApplyBuoyancyForce();
     }
-    
+
+    void FixedUpdate()
+    {
+        ApplyBuoyancyForce();
+        ApplyLateralMovement();
+        // UpdateDebugInfo();
+    }
+
     /// <summary>
     /// QE for buoyancy adjustment
     /// </summary>
@@ -77,7 +89,7 @@ public class UnderwaterBuoyancyController : MonoBehaviour
         // Clamp depth multiplier to avoid zero or negative values
         depthMultiplier = Mathf.Clamp(depthMultiplier, 0.1f, 1f);
     }
-    
+
     /// <summary>
     /// Apply buoyancy force to the Rigidbody2D
     /// </summary>
@@ -91,6 +103,46 @@ public class UnderwaterBuoyancyController : MonoBehaviour
         }
     }
     
+    private float verticalForce(float currentBuoyancy)
+    {
+        if (currentBuoyancy >= 0)
+        {
+            return currentBuoyancy;
+        }
+        else
+        {
+            return -currentBuoyancy; //Maybe reduce the downforce effect
+        }
+    }
+    private void ApplyLateralMovement()
+    {
+        if (FishRb == null) return;
+        //Get current vertical speed
+        // currentVerticalSpeed = FishRb.linearVelocity.y;
+        //Get Z axis input(change to -180 to 180)
+        float currentRotation = NormalizeAngle(transform.eulerAngles.z);
+        float clampedRotation = Mathf.Clamp(currentRotation, -45f, 45f);
+        float rotationRatio = -clampedRotation / 45f; // -1 to 1 Left to Right
+        //Calculate lateral force based on Verticalforce
+        float verticalForceApplied = verticalForce(currentBuoyancy);
+        lateralForce = rotationRatio * lateralForceMultiplier * verticalForceApplied;
+        //Apply lateral force
+        Vector2 lateralForceVector = Vector2.right * lateralForce;
+        FishRb.AddForce(lateralForceVector, ForceMode2D.Force);
+
+    }
+    /// <summary>
+    /// NormalizeAngle to -180 to 180 
+    /// </summary>
+    private float NormalizeAngle(float angle)
+    {
+        angle = angle % 360f;
+        if (angle > 180f)
+            angle -= 360f;
+        return angle;
+    }
+    
+
     /// <summary>
     /// Get current buoyancy（For UI disaplay）
     /// </summary>

@@ -1,49 +1,58 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
 {
+    [Header("Components")]
+    [Tooltip("Reference to the Rigidbody2D component.")]
     [SerializeField] private Rigidbody2D rigidBody;
 
-    // rotation control (degrees per second)
-    [SerializeField] private float rotationSpeed = 180f;
-    // max tilt angle (degrees) from horizontal
-    [SerializeField] private float maxRotationAngle = 45f;
+    [Header("Rotation Settings")]
+    [Tooltip("Angular speed multiplier for rotation.")]
+    [SerializeField] private float rotationSpeedMultiplier = 50f; // Multiplier for angular velocity
+    [Tooltip("The rate at which the fish naturally slows its turn.")]
+    [SerializeField] private float angularDamping = 5f;
 
-    // buoyancy: positive -> up (vers la surface), negative -> down
-    [SerializeField] private float buoyancyTargetVelocity = 1.5f;
-    // how quickly vertical velocity approaches target (higher = snappier)
-    [SerializeField] private float buoyancySmoothing = 8f;
+    [Header("Inertia Settings")]
+    [Tooltip("Taux de douceur/vitesse avec lequel la rotation cible est atteinte. Plus la valeur est petite, plus l'inertie est grande (réaction lente).")]
+    [SerializeField] private float rotationInertiaRate = 10f;
+
+    // --- Private Input Variable ---
+    
+    // Stores the current input value for rotation (-1 for left, 1 for right).
+    private float rotationInputValue;
 
     void Start()
     {
-        if (rigidBody == null) rigidBody = GetComponent<Rigidbody2D>();
-    }
-
-    void Update()
-    {
-        // lecture des touches (AZERTY: Q / D)
-        // on lit les inputs en Update mais on applique en FixedUpdate pour la physique
+        if (rigidBody == null)
+        {
+            rigidBody = GetComponent<Rigidbody2D>();
+        }
+        rigidBody.angularDamping = angularDamping;
+        rigidBody.gravityScale = 0;
     }
 
     void FixedUpdate()
     {
-        if (rigidBody == null) return;
+        float targetAngularVelocity = -rotationInputValue * rotationSpeedMultiplier;
 
-        // --- Rotation via Q / D ---
-        float rotationInput = 0f;
-        if (Input.GetKey(KeyCode.Q)) rotationInput += 1f; // tourner à gauche
-        if (Input.GetKey(KeyCode.D)) rotationInput -= 1f; // tourner à droite
+        // 2. --- Apply Rotation with Interpolation (Inertie) ---
+        float newAngularVelocity = Mathf.Lerp(
+            rigidBody.angularVelocity, 
+            targetAngularVelocity,      
+            Time.fixedDeltaTime * rotationInertiaRate // Utilisation de la variable
+        );
 
-        float newRotation = rigidBody.rotation + rotationInput * rotationSpeed * Time.fixedDeltaTime;
-        // clamp pour éviter des rotations trop penchées
-        newRotation = Mathf.Clamp(newRotation, -maxRotationAngle, maxRotationAngle);
-        rigidBody.MoveRotation(newRotation);
-
-        // --- Buoyancy (flottaison) verticale passive ---
-        float currentY = rigidBody.linearVelocityY;
-        float targetY = buoyancyTargetVelocity;
-        float smoothedY = Mathf.Lerp(currentY, targetY, Mathf.Clamp01(buoyancySmoothing * Time.fixedDeltaTime));
-        rigidBody.linearVelocity = new Vector2(rigidBody.linearVelocity.x, smoothedY);
+        rigidBody.angularVelocity = newAngularVelocity;
     }
-    
+
+    public void OnRotation(InputAction.CallbackContext context)
+    {
+        Debug.Log("OnRotation appelée.");
+        // Reads the float value from the 1D Axis (A/D composite or Left Stick X-axis).
+        rotationInputValue = context.ReadValue<float>();
+        Debug.Log("rotationInputValue lue : " + rotationInputValue);
+    }
+
 }

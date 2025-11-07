@@ -54,11 +54,11 @@ public class UnderwaterBuoyancyController : MonoBehaviour
     {
         float adjustment = 0f;
         
-        if (Input.GetKey(KeyCode.Q))
+        if (Input.GetKey(KeyCode.J))
         {
             adjustment = -buoyancyAdjustSpeed * Time.deltaTime;
         }
-        if (Input.GetKey(KeyCode.E))
+        if (Input.GetKey(KeyCode.L))
         {
             adjustment = buoyancyAdjustSpeed * Time.deltaTime;
         }

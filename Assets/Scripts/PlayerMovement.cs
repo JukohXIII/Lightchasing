@@ -4,7 +4,6 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
 {
-    
     [Header("Components")]
     [SerializeField] private Rigidbody2D rigidBody;
 
@@ -12,99 +11,82 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float angularDamping = 5f;
 
     [Header("Inertia Settings")]
-    [SerializeField] private float accelerationRate = 20f; // Taux rapide pour le démarrage (ancien 20f)
-    [SerializeField] private float decelerationRate = 3f;
+    [SerializeField] private float accelerationRate = 200f; // valeur d'accélération pour MoveTowards (deg/s² effectif)
+    [SerializeField] private float decelerationRate = 200f;
     [SerializeField] private float maxRotationAngle = 45f;
 
-    // --- Private Input Variable ---
-    // Stores the current input value for rotation (-1 for left, 1 for right).
     private float rotationInputValue;
-    private float currentAngularVelocity;
+    private float currentAngularVelocity; // champ, pas d'ombrage
+
     void Start()
     {
         if (rigidBody == null)
-        {
             rigidBody = GetComponent<Rigidbody2D>();
-        }
-        
-        rigidBody.angularDamping = angularDamping; 
-        rigidBody.gravityScale = 0;
+
+        rigidBody.angularDamping = angularDamping;
+        rigidBody.gravityScale = 0f;
+    }
+
+    // Normalize angle into [-180, 180]
+    private float NormalizeAngle(float a)
+    {
+        if (a > 180f) a -= 360f;
+        return a;
     }
 
     void FixedUpdate()
-{
-    // Lecture de la vélocité angulaire actuelle du Rigidbody
-    float currentAngularVelocity = rigidBody.angularVelocity; 
-    
-    // Définir la Vitesse Angulaire Cible
-    float targetAngularVelocity = -rotationInputValue * rotationSpeedMultiplier;
-    
-    // Lecture et normalisation de l'angle Z actuel [0, 360] -> [-180, 180]
-    float currentAngleZ = transform.localEulerAngles.z;
-    if (currentAngleZ > 180f)
     {
-        currentAngleZ -= 360f;
-    }
+        // lire la vitesse actuelle (en deg/s)
+        currentAngularVelocity = rigidBody.angularVelocity;
 
-    // --- 1. Empêcher la Vitesse Cible de Pousser au-delà de la Limite (CORRECTION) ---
-    
-    // Si nous sommes à la limite gauche ET que l'input pousse à gauche (négatif)
-    if (currentAngleZ <= -maxRotationAngle && rotationInputValue < 0) 
-    {
-        targetAngularVelocity = 0f; // La cible est l'arrêt
-    }
-    // OU Si nous sommes à la limite droite ET que l'input pousse à droite (positif)
-    else if (currentAngleZ >= maxRotationAngle && rotationInputValue > 0) 
-    {
-        targetAngularVelocity = 0f; // La cible est l'arrêt
-    }
-    
-    // --- 2. Application de la Vélocité ---
+        // angle actuel normalisé
+        float currentAngleZ = NormalizeAngle(transform.localEulerAngles.z);
 
-    if (rotationInputValue != 0f)
-    {
-        // Accélération : Poussée vers la cible (qui peut être 0 si bloquée)
-        rigidBody.angularVelocity = Mathf.Lerp(
-            currentAngularVelocity,
-            targetAngularVelocity,
-            Time.fixedDeltaTime * accelerationRate
-        );
-    }
-    else
-    {
-        // Décélération : Inertie de Fin (Poussée vers 0)
-        rigidBody.angularVelocity = Mathf.Lerp(
-            currentAngularVelocity,
-            0f,
-            Time.fixedDeltaTime * decelerationRate
-        );
-    }
+        // vitesse désirée (attention au signe : ajuste si le sens est inversé pour toi)
+        float desiredAngularVelocity = -rotationInputValue * rotationSpeedMultiplier;
 
-    // --- 3. Contrainte Finale (Clamping) ---
-    
-    float clampedAngleZ = Mathf.Clamp(
-        currentAngleZ, 
-        -maxRotationAngle, 
-        maxRotationAngle
-    );
-    
-    // Si l'angle a été corrigé (c'est-à-dire qu'il a dépassé la limite, même légèrement)
-    if (currentAngleZ != clampedAngleZ)
-    {
-        // Forcer la correction visuelle et annuler toute vélocité résiduelle
-        transform.localEulerAngles = new Vector3(
-            transform.localEulerAngles.x, 
-            transform.localEulerAngles.y, 
-            clampedAngleZ
-        );
-        
-        rigidBody.angularVelocity = 0f; 
+        // --- Bloquer seulement si la vitesse désirée pousserait plus loin que la limite ---
+        bool atLeftLimit  = currentAngleZ <= -maxRotationAngle;
+        bool atRightLimit = currentAngleZ >=  maxRotationAngle;
+
+        if (atLeftLimit && desiredAngularVelocity < 0f)
+        {
+            // on pousse davantage vers la gauche -> on empêche
+            desiredAngularVelocity = 0f;
+        }
+        else if (atRightLimit && desiredAngularVelocity > 0f)
+        {
+            // on pousse davantage vers la droite -> on empêche
+            desiredAngularVelocity = 0f;
+        }
+
+        // Si pas d'input, la cible est 0 (décélération)
+        if (Mathf.Approximately(rotationInputValue, 0f))
+            desiredAngularVelocity = 0f;
+
+        // Smooth mais ferme : approche de la vitesse désirée (accélération / décélération)
+        float accel = (Mathf.Abs(desiredAngularVelocity) > Mathf.Abs(currentAngularVelocity)) ? accelerationRate : decelerationRate;
+        float newAngularVelocity = Mathf.MoveTowards(currentAngularVelocity, desiredAngularVelocity, accel * Time.fixedDeltaTime);
+
+        rigidBody.angularVelocity = newAngularVelocity;
+
+        // --- correction d'angle si on dépasse légèrement (sécurité) ---
+        float clampedAngleZ = Mathf.Clamp(currentAngleZ, -maxRotationAngle, maxRotationAngle);
+        if (!Mathf.Approximately(currentAngleZ, clampedAngleZ))
+        {
+            // appliquer correction visuelle
+            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, clampedAngleZ);
+            // arrêter la rotation si on était en train de pousser au-delà
+            if ((currentAngleZ < -maxRotationAngle && rotationInputValue < 0f) ||
+                (currentAngleZ >  maxRotationAngle && rotationInputValue > 0f))
+            {
+                rigidBody.angularVelocity = 0f;
+            }
+        }
     }
-}
 
     public void OnRotation(InputAction.CallbackContext context)
     {
-        // Reads the float value from the 1D Axis (A/D composite or Left Stick X-axis).
         rotationInputValue = context.ReadValue<float>();
     }
 }

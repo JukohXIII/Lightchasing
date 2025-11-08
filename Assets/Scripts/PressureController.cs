@@ -41,6 +41,7 @@ public class PressureController : MonoBehaviour
 
     void Update()
     {
+        
         // Update depth: assuming surface at y=0, depth is positive downward
         //currentDepth = Mathf.Clamp(transform.position.y, 0f, maxDepth);
         //Depth won't matter for pressure change

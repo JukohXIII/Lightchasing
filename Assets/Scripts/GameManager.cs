@@ -22,7 +22,6 @@ public class GameManager : MonoBehaviour
         if (isGameOver) return;
 
         currentLives -= damage;
-        Debug.Log($"Remaining lives : {currentLives}");
 
         if (currentLives <= 0)
         {
@@ -55,7 +54,6 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        //Debug.Log($"Remaining lives : {currentLives}");
         if (isGameOver && Input.GetKeyDown(KeyCode.Space))
         {
             RestartGame();

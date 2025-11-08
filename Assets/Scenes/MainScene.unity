@@ -245,10 +245,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   rigidBody: {fileID: 6630793}
   rotationSpeedMultiplier: 200
-  angularDamping: 20
-  accelerationRate: 7000
+  angularDamping: 10
+  accelerationRate: 10000
   decelerationRate: 0.0001
-  maxRotationAngle: 45
+  maxRotationAngle: 90
 --- !u!114 &6630799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2416,7 +2416,7 @@ MonoBehaviour:
   - {fileID: 1221772280223947105, guid: b0c736f1c1dce714cae0bc72279d786a, type: 3}
   - {fileID: 1221772280223947105, guid: 878045cf705274f499efbcae259c1264, type: 3}
   - {fileID: 1221772280223947105, guid: 075a3c0a5a2017b49b8e716bed8ff75b, type: 3}
-  spawnInterval: 2
+  spawnInterval: 0.5
   spawnIntervalVariance: 0.5
   spawnOffset: 1
 --- !u!4 &1782085969

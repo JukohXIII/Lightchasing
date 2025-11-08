@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 6630802}
   - component: {fileID: 6630803}
   - component: {fileID: 6630804}
+  - component: {fileID: 6630805}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -209,7 +210,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.3, y: 0.25}
+    oldSize: {x: 0.3, y: 0.27}
     newSize: {x: 0.3, y: 0.25}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -521,6 +522,28 @@ MonoBehaviour:
   - {fileID: -4201181039601258628, guid: ab6b4d7b06d5ab549aa902c426201b44, type: 3}
   - {fileID: -6660573835324607807, guid: 65b008f5f352cb246b4e4526d203ee15, type: 3}
   buoyancyController: {fileID: 6630799}
+--- !u!95 &6630805
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6630792}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 33196614c9129b444ad80bec30b60c2b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &26291525
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,10 +1,22 @@
 fileFormatVersion: 2
-guid: a14febe8d9ee86248b489c946d1187b4
+guid: 0bf203f921631f34b9275fa46157b891
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3416377234086505909
-    second: panel_01_0
+      213: 2013099453868778942
+    second: start_text_0
+  - first:
+      213: -6314732594474686019
+    second: start_text_1
+  - first:
+      213: -6862254117829078980
+    second: start_text_2
+  - first:
+      213: -1465399615031090406
+    second: start_text_3
+  - first:
+      213: -6051638628340895326
+    second: start_text_4
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -52,7 +64,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
-  spriteBorder: {x: 6, y: 6, z: 6, w: 6}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -100,23 +112,111 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: panel_01_0
+      name: start_text_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 87
-        height: 99
+        width: 9
+        height: 13
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b42da8f91079690d0800000000000000
-      internalID: -3416377234086505909
+      spriteID: eb5a1659947ffeb10800000000000000
+      internalID: 2013099453868778942
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: start_text_1
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 0
+        width: 7
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db961c689209d58a0800000000000000
+      internalID: -6314732594474686019
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: start_text_2
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 0
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c301654dc3064c0a0800000000000000
+      internalID: -6862254117829078980
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: start_text_3
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 0
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a13e31c60dad9abe0800000000000000
+      internalID: -1465399615031090406
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: start_text_4
+      rect:
+        serializedVersion: 2
+        x: 29
+        y: 0
+        width: 7
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a175b00bb2440ca0800000000000000
+      internalID: -6051638628340895326
       vertices: []
       indices: 
       edges: []
@@ -126,7 +226,7 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
-    internalID: 1537655665
+    internalID: 0
     vertices: []
     indices: 
     edges: []
@@ -135,7 +235,11 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      panel_01_0: -3416377234086505909
+      start_text_0: 2013099453868778942
+      start_text_1: -6314732594474686019
+      start_text_2: -6862254117829078980
+      start_text_3: -1465399615031090406
+      start_text_4: -6051638628340895326
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

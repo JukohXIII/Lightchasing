@@ -136,13 +136,13 @@ public class StaminaSystem : MonoBehaviour
     // }
 
     /// <summary>
-    /// subtract stamina（for special occasions）
+    /// Consume stamina（for special occasions）
     /// </summary>
-    // public void ConsumeStamina(float amount)
-    // {
-    //     currentStamina = Mathf.Max(minStamina, currentStamina - amount);
-    //     UpdateStaminaUI();
-    // }
+    public void ConsumeStamina(float amount)
+    {
+        currentStamina = Mathf.Max(minStamina, currentStamina - amount);
+        UpdateStaminaUI();
+    }
 
     /// <summary>
     /// Restore all stamina（for events） 
@@ -156,8 +156,8 @@ public class StaminaSystem : MonoBehaviour
     /// <summary>
     /// Stamina check（for actions） 
     /// </summary>
-    // public bool HasEnoughStamina(float requiredStamina)
-    // {
-    //     return currentStamina >= requiredStamina && !isExhausted;
-    // }
+    public bool HasEnoughStamina(float requiredStamina)
+    {
+        return currentStamina >= requiredStamina && !isExhausted;
+    }
 }

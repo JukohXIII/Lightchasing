@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Components")]
     [SerializeField] private Rigidbody2D rigidBody;
-
+    private SpriteRenderer spriteRenderer;
     [SerializeField] private float rotationSpeedMultiplier = 50f;
     [SerializeField] private float angularDamping = 5f;
 
@@ -22,6 +22,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (rigidBody == null)
             rigidBody = GetComponent<Rigidbody2D>();
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
         rigidBody.angularDamping = angularDamping;
         rigidBody.gravityScale = 0f;
@@ -66,11 +68,13 @@ public class PlayerMovement : MonoBehaviour
         {
             transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, clampedAngleZ);
             if ((currentAngleZ < -maxRotationAngle && rotationInputValue < 0f) ||
-                (currentAngleZ >  maxRotationAngle && rotationInputValue > 0f))
+                (currentAngleZ > maxRotationAngle && rotationInputValue > 0f))
             {
                 rigidBody.angularVelocity = 0f;
             }
         }
+        
+        spriteRenderer.flipX = currentAngleZ < 0f;
     }
 
     public void OnRotation(InputAction.CallbackContext context)

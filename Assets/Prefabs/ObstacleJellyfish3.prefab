@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6986632179128583278}
   - component: {fileID: 7919812529799938000}
   - component: {fileID: 493889289767051138}
+  - component: {fileID: -4720309967917110307}
   m_Layer: 0
   m_Name: ObstacleJellyfish3
   m_TagString: Obstacle
@@ -166,3 +167,16 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-4720309967917110307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1221772280223947105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cde1eade017d8b4a8e094f75f99f220, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObstacleLifeTime
+  lifetime: 10

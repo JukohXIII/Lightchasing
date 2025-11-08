@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6986632179128583278}
   - component: {fileID: 3321687233988262276}
   - component: {fileID: -1043587931614281414}
+  - component: {fileID: 5662872617522589476}
   m_Layer: 0
   m_Name: ObstacleJellyfish1
   m_TagString: Obstacle
@@ -166,3 +167,16 @@ CapsuleCollider2D:
   m_Offset: {x: 0.0017051282, y: -0.0017051557}
   m_Size: {x: 0.19382082, y: 0.2108721}
   m_Direction: 0
+--- !u!114 &5662872617522589476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1221772280223947105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cde1eade017d8b4a8e094f75f99f220, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObstacleLifeTime
+  lifetime: 10

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3040701883237924452}
   - component: {fileID: 6986632179128583278}
   - component: {fileID: 8608130717448212146}
+  - component: {fileID: 5000802331309501242}
   m_Layer: 0
   m_Name: ObstacleMonsterCan
   m_TagString: Obstacle
@@ -152,3 +153,16 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.13535792, y: 0.27509043}
   m_EdgeRadius: 0
+--- !u!114 &5000802331309501242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1221772280223947105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cde1eade017d8b4a8e094f75f99f220, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObstacleLifeTime
+  lifetime: 10

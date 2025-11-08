@@ -25,18 +25,22 @@ public class UnderwaterBuoyancyController : MonoBehaviour
     
     private Rigidbody2D FishRb;
     private float targetBuoyancy = 0f;
-    
+    private float currentStamina { get;  set; }
+    private StaminaSystem readCurrentStamina;
     void Start()
     {
         FishRb = GetComponent<Rigidbody2D>();
         currentBuoyancy = baseBuoyancy; //current private set=0?
         targetBuoyancy = baseBuoyancy;
+        readCurrentStamina = FindAnyObjectByType<StaminaSystem>();
     }
 
     void Update()
     {
-        HandleBuoyancyInput();
+        currentStamina = readCurrentStamina.CurrentStamina;
         CalculateDepthEffect();
+        HandleBuoyancyInput();
+        OverrideBuoyancy();
         ApplyBuoyancyForce();
     }
 
@@ -141,8 +145,16 @@ public class UnderwaterBuoyancyController : MonoBehaviour
             angle -= 360f;
         return angle;
     }
-    
 
+    //buoyancy override by stamina systems
+
+    public void OverrideBuoyancy()
+    {
+        if (currentStamina == 0)
+        {
+            targetBuoyancy = 0f;
+        }
+    }
     /// <summary>
     /// Get current buoyancy（For UI disaplay）
     /// </summary>

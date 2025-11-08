@@ -9,12 +9,15 @@ public class GameManager : MonoBehaviour
     public int maxLives = 3;
     private int currentLives;
     private bool isGameOver = false;
+    public Text livesText;
 
     void Start()
     {
         currentLives = maxLives;
         if (gameOverText != null)
             gameOverText.SetActive(false);
+
+        UpdateLivesUI();
     }
 
     public void TakeDamage(int damage = 1)
@@ -22,12 +25,20 @@ public class GameManager : MonoBehaviour
         if (isGameOver) return;
 
         currentLives -= damage;
+        if (currentLives < 0) currentLives = 0;
+
+        UpdateLivesUI();
 
         if (currentLives <= 0)
         {
-            currentLives = 0;
             HandleGameOver();
         }
+    }
+
+    private void UpdateLivesUI()
+    {
+        if (livesText != null)
+            livesText.text = "" + currentLives;
     }
 
     void OnEnable()

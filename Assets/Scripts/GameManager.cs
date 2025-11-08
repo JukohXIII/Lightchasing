@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        Debug.Log($"Remaining lives : {currentLives}");
+        //Debug.Log($"Remaining lives : {currentLives}");
         if (isGameOver && Input.GetKeyDown(KeyCode.Space))
         {
             RestartGame();

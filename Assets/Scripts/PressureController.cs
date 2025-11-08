@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
 using UnityEngine.Events;
@@ -8,10 +9,12 @@ public class PressureController : MonoBehaviour
 {
     [Header("Pressure Settings")]
     public float maxPressure = 100f;
-    public float pressureIncreaseRate = 100f;  // rate per second when ascending too fast
-    public float pressureDecreaseRate = 5f;  // Base decrease rate
-    public float safeAscendSpeed = 2f;  // max safe upward speed (units per second)
+    public float pressureIncreaseRate = 0f;  // rate per second when ascending too fast
+    public float pressureDecreaseRate = 10f;  // Base decrease rate
+    public float safeAscendSpeedThreshold = 5f;  // max safe upward speed (units per second)
     public float maxDepth = 500f;
+    private float pressureExponent = 2f;
+
 
     [Header("References")]
     public Rigidbody2D fishRigidbody;
@@ -39,14 +42,17 @@ public class PressureController : MonoBehaviour
     void Update()
     {
         // Update depth: assuming surface at y=0, depth is positive downward
-        currentDepth = Mathf.Clamp(transform.position.y, 0f, maxDepth);
-
+        //currentDepth = Mathf.Clamp(transform.position.y, 0f, maxDepth);
+        //Depth won't matter for pressure change
+        pressureExponent = Mathf.Log(pressureDecreaseRate) / Mathf.Log(safeAscendSpeedThreshold);
         float verticalSpeed = fishRigidbody.linearVelocityY;
 
-        if (verticalSpeed > safeAscendSpeed)
+        if (verticalSpeed > safeAscendSpeedThreshold)
         {
             // Ascending too fast, increase pressure
+            pressureIncreaseRate = Mathf.Pow(verticalSpeed, pressureExponent);
             currentPressure += pressureIncreaseRate * Time.deltaTime;
+            Debug.Log($"{pressureIncreaseRate}");
         }
         else
         {
@@ -61,7 +67,14 @@ public class PressureController : MonoBehaviour
             Debug.Log("Pressure Max Reached! Player dies.");
             OnPressureMaxReached?.Invoke();
         }
-        UpdatePressureUI(); 
+        UpdatePressureUI();
+    }
+    
+    //addinig pressure for dash
+    public void AddPressure(float amount)
+    {
+        currentPressure += amount;
+        UpdatePressureUI();
     }
 
     // Update pressure UI

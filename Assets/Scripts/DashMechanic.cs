@@ -34,6 +34,7 @@ public class DashMechanic : MonoBehaviour
     public bool CanDash => canDash && currentDashCharges > 0 && !isDashing && !inInertia;
 
     private StaminaSystem staminaSystem;
+    private PressureController pressureController;
     private float dashStaminaCost = 50f;      // stamina cost per dash
     private Vector2 lastDashDirection;
     // Dash events
@@ -45,6 +46,7 @@ public class DashMechanic : MonoBehaviour
 
     void Start()
     {
+        pressureController = FindAnyObjectByType<PressureController>(); 
         staminaSystem = FindAnyObjectByType<StaminaSystem>();
         currentDashCharges = maxDashCharges;
 
@@ -116,7 +118,7 @@ public class DashMechanic : MonoBehaviour
         StartCoroutine(PerformDash());
 
         // 触发事件
-        // OnDashStart?.Invoke();
+        pressureController.AddPressure(20f); // Add pressure on dash
 
         Debug.Log($"Start Dash, remaining dash: {currentDashCharges}");
     }

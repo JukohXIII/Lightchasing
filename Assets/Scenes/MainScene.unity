@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 6630801}
   - component: {fileID: 6630802}
   - component: {fileID: 6630803}
+  - component: {fileID: 6630804}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -262,7 +263,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnderwaterBuoyancyController
   baseBuoyancy: 0
-  maxBuoyancy: 15
+  maxBuoyancy: 5
   minBuoyancy: -5
   buoyancyAdjustSpeed: 3
   maxLateralForce: 10
@@ -499,6 +500,27 @@ MonoBehaviour:
   inInertia: 0
   cooldownTimer: 0
   recoveryTimer: 0
+--- !u!114 &6630804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6630792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72604054b57d3164ea683d67488a2fa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpriteChanger
+  spriteRenderer: {fileID: 6630800}
+  sprites:
+  - {fileID: -6660573835324607807, guid: 930bc9a65bb3a0a4a973443cf9dfc1cc, type: 3}
+  - {fileID: -4201181039601258628, guid: 29e0d7c5d66364a4fac00c28e727978a, type: 3}
+  - {fileID: -5405164439530168626, guid: cf1fde8616afbcd4e9f0dc55bafc9f3d, type: 3}
+  - {fileID: -5405164439530168626, guid: 633b3914f9ab4dc46931cce1a76104c6, type: 3}
+  - {fileID: -4201181039601258628, guid: ab6b4d7b06d5ab549aa902c426201b44, type: 3}
+  - {fileID: -6660573835324607807, guid: 65b008f5f352cb246b4e4526d203ee15, type: 3}
+  buoyancyController: {fileID: 6630799}
 --- !u!1 &26291525
 GameObject:
   m_ObjectHideFlags: 0

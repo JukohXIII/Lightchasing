@@ -347,7 +347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34f1522fadf18984ba9e56df9a7b2cfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PressureController
-  maxPressure: 100
+  maxPressure: 200
   pressureIncreaseRate: 0
   pressureDecreaseRate: 10
   safeAscendSpeedThreshold: 5
@@ -457,44 +457,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fff441cb74d27b42817d85aee103439, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DashMechanic
-  dashDistance: 5
+  dashImpulseForce: 30
   dashDuration: 0.3
   dashCooldown: 1
   maxDashCharges: 2
   chargeRecoveryTime: 2
-  dashTrailEffect: {fileID: 0}
-  dashSpeedCurve:
+  inertiaForce: 15
+  inertiaDuration: 2
+  inertiaForceCurve:
     serializedVersion: 2
     m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  inertiaDistance: 2
-  inertiaDuration: 2
-  inertiaCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  dashTrailEffect: {fileID: 0}
   currentDashCharges: 0
   isDashing: 0
   canDash: 1
@@ -513,15 +489,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72604054b57d3164ea683d67488a2fa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpriteChanger
-  spriteRenderer: {fileID: 6630800}
-  sprites:
-  - {fileID: -6660573835324607807, guid: 930bc9a65bb3a0a4a973443cf9dfc1cc, type: 3}
-  - {fileID: -4201181039601258628, guid: 29e0d7c5d66364a4fac00c28e727978a, type: 3}
-  - {fileID: -5405164439530168626, guid: cf1fde8616afbcd4e9f0dc55bafc9f3d, type: 3}
-  - {fileID: -5405164439530168626, guid: 633b3914f9ab4dc46931cce1a76104c6, type: 3}
-  - {fileID: -4201181039601258628, guid: ab6b4d7b06d5ab549aa902c426201b44, type: 3}
-  - {fileID: -6660573835324607807, guid: 65b008f5f352cb246b4e4526d203ee15, type: 3}
-  buoyancyController: {fileID: 6630799}
 --- !u!95 &6630805
 Animator:
   serializedVersion: 7
@@ -2518,10 +2485,12 @@ MonoBehaviour:
   - {fileID: 1221772280223947105, guid: 878045cf705274f499efbcae259c1264, type: 3}
   - {fileID: 1221772280223947105, guid: 075a3c0a5a2017b49b8e716bed8ff75b, type: 3}
   playerTransform: {fileID: 6630796}
+  baseSpawnInterval: 2
+  spawnIntervalVariance: 0.5
+  difficultyScale: 0.02
+  spawnOffset: 1
   safeRadius: 3
   spawnInterval: 2
-  spawnIntervalVariance: 0.5
-  spawnOffset: 1
 --- !u!4 &1782085969
 Transform:
   m_ObjectHideFlags: 0

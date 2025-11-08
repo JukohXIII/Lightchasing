@@ -264,9 +264,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnderwaterBuoyancyController
   baseBuoyancy: 0
-  maxBuoyancy: 5
-  minBuoyancy: -5
-  buoyancyAdjustSpeed: 3
+  maxBuoyancy: 3
+  minBuoyancy: -3
+  buoyancyAdjustSpeed: 6
   maxLateralForce: 10
   lateralForceMultiplier: 1.4
   surfaceDepth: 0

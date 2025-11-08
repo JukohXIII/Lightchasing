@@ -1,5 +1,7 @@
+using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PressureController : MonoBehaviour
@@ -7,16 +9,22 @@ public class PressureController : MonoBehaviour
     [Header("Pressure Settings")]
     public float maxPressure = 100f;
     public float pressureIncreaseRate = 100f;  // rate per second when ascending too fast
-    public float pressureDecreaseRate = 5f;  // rate per second when safe or descending
+    public float pressureDecreaseRate = 5f;  // Base decrease rate
     public float safeAscendSpeed = 2f;  // max safe upward speed (units per second)
-    public float maxDepth = 8000f;
+    public float maxDepth = 500f;
 
     [Header("References")]
     public Rigidbody2D fishRigidbody;
 
+    [Header("UI Elements")]
+    public UnityEngine.UI.Image pressureBarFill;              // Image for Pressure Bar fill
+
     [Header("Runtime Variables")]
     public float currentPressure = 0f;
     public float currentDepth = 0f; // Positive number for depth
+    
+    
+    public float PressurePercent => currentPressure / maxPressure;
 
     public UnityEvent OnPressureMaxReached; // Assign death event in inspector
 
@@ -24,6 +32,8 @@ public class PressureController : MonoBehaviour
     {
         if (fishRigidbody == null)
             fishRigidbody = GetComponent<Rigidbody2D>();
+        
+        UpdatePressureUI();
     }
 
     void Update()
@@ -51,16 +61,15 @@ public class PressureController : MonoBehaviour
             Debug.Log("Pressure Max Reached! Player dies.");
             OnPressureMaxReached?.Invoke();
         }
+        UpdatePressureUI(); 
     }
 
-    // Optional: UI getter
-    public float GetPressurePercent()
+    // Update pressure UI
+    private void UpdatePressureUI()
     {
-        return currentPressure / maxPressure;
-    }
-
-    public float GetDepth()
-    {
-        return currentDepth;
+        if (pressureBarFill != null)
+        {
+            pressureBarFill.fillAmount = PressurePercent;
+        }
     }
 }

@@ -1,14 +1,15 @@
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class PressureController : MonoBehaviour
 {
     [Header("Pressure Settings")]
     public float maxPressure = 100f;
-    public float pressureIncreaseRate = 30f;  // rate per second when ascending too fast
-    public float pressureDecreaseRate = 10f;  // rate per second when safe or descending
+    public float pressureIncreaseRate = 0.5f;  // rate per second when ascending too fast
+    public float pressureDecreaseRate = 0.2f;  // rate per second when safe or descending
     public float safeAscendSpeed = 2f;         // max safe upward speed (units per second)
-    public float maxDepth = 100f;
+    public float maxDepth = 8000f;
 
     [Header("References")]
     public Rigidbody2D fishRigidbody;

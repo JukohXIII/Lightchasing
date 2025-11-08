@@ -1,0 +1,54 @@
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI; // or TMPro if you use TextMeshPro
+
+public class GameManager : MonoBehaviour
+{
+    public PressureController pressureController;  // Reference to your pressure script
+    public GameObject gameOverText;                 // Reference to your UI Text GameObject
+
+    private bool isGameOver = false;
+
+    void Start()
+    {
+        if (gameOverText != null)
+            gameOverText.SetActive(false);
+    }
+
+    void OnEnable()
+    {
+        if (pressureController != null)
+            pressureController.OnPressureMaxReached.AddListener(HandleGameOver);
+    }
+
+    void OnDisable()
+    {
+        if (pressureController != null)
+            pressureController.OnPressureMaxReached.RemoveListener(HandleGameOver);
+    }
+
+    private void HandleGameOver()
+    {
+        Debug.Log("Game Over! Showing message...");
+        isGameOver = true;
+        if (gameOverText != null)
+            gameOverText.SetActive(true);
+        // Optionally pause game logic here by setting timescale to 0
+        Time.timeScale = 0f; // Pause the game
+    }
+
+    void Update()
+    {
+        if (isGameOver && Input.GetKeyDown(KeyCode.Space))
+        {
+            RestartGame();
+        }
+    }
+
+    private void RestartGame()
+    {
+        Debug.Log("Restarting game...");
+        Time.timeScale = 1f; // Resume time before reloading
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+}

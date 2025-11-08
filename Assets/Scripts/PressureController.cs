@@ -51,8 +51,6 @@ public class PressureController : MonoBehaviour
             Debug.Log("Pressure Max Reached! Player dies.");
             OnPressureMaxReached?.Invoke();
         }
-
-        Debug.Log("Vertical Speed: " + fishRigidbody.linearVelocityY);
     }
 
     // Optional: UI getter

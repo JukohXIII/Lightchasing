@@ -225,7 +225,7 @@ Transform:
   m_GameObject: {fileID: 6630792}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.3, y: 10.1, z: 32.5308}
+  m_LocalPosition: {x: 0.3, y: 3.9, z: 32.5308}
   m_LocalScale: {x: 7.9151587, y: 7.9151587, z: 7.9151587}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1568,6 +1568,63 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &515995020
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 528310174049268041, guid: 878045cf705274f499efbcae259c1264, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.9117372
+      objectReference: {fileID: 0}
+    - target: {fileID: 528310174049268041, guid: 878045cf705274f499efbcae259c1264, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 6.1956615
+      objectReference: {fileID: 0}
+    - target: {fileID: 528310174049268041, guid: 878045cf705274f499efbcae259c1264, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 528310174049268041, guid: 878045cf705274f499efbcae259c1264, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9670904
+      objectReference: {fileID: 0}
+    - target: {fileID: 528310174049268041, guid: 878045cf705274f499efbcae259c1264, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 528310174049268041, guid: 878045cf705274f499efbcae259c1264, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 528310174049268041, guid: 878045cf705274f499efbcae259c1264, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.2544331
+      objectReference: {fileID: 0}
+    - target: {fileID: 528310174049268041, guid: 878045cf705274f499efbcae259c1264, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 528310174049268041, guid: 878045cf705274f499efbcae259c1264, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 528310174049268041, guid: 878045cf705274f499efbcae259c1264, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -29.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 1221772280223947105, guid: 878045cf705274f499efbcae259c1264, type: 3}
+      propertyPath: m_Name
+      value: ObstacleMonsterCan
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 878045cf705274f499efbcae259c1264, type: 3}
 --- !u!1 &682264225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1929,6 +1986,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   pressureController: {fileID: 6630801}
   gameOverText: {fileID: 195505759}
+  maxLives: 3
 --- !u!4 &1565797525
 Transform:
   m_ObjectHideFlags: 0
@@ -2229,3 +2287,4 @@ SceneRoots:
   - {fileID: 1782085969}
   - {fileID: 1811078379}
   - {fileID: 1026359570}
+  - {fileID: 515995020}

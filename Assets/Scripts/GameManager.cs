@@ -6,13 +6,29 @@ public class GameManager : MonoBehaviour
 {
     public PressureController pressureController;  // Reference to your pressure script
     public GameObject gameOverText;                 // Reference to your UI Text GameObject
-
+    public int maxLives = 3;
+    private int currentLives;
     private bool isGameOver = false;
 
     void Start()
     {
+        currentLives = maxLives;
         if (gameOverText != null)
             gameOverText.SetActive(false);
+    }
+
+    public void TakeDamage(int damage = 1)
+    {
+        if (isGameOver) return;
+
+        currentLives -= damage;
+        Debug.Log($"Remaining lives : {currentLives}");
+
+        if (currentLives <= 0)
+        {
+            currentLives = 0;
+            HandleGameOver();
+        }
     }
 
     void OnEnable()
@@ -39,6 +55,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        Debug.Log($"Remaining lives : {currentLives}");
         if (isGameOver && Input.GetKeyDown(KeyCode.Space))
         {
             RestartGame();

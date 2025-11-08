@@ -81,4 +81,13 @@ public class PlayerMovement : MonoBehaviour
     {
         rotationInputValue = context.ReadValue<float>();
     }
+
+    void OnCollisionEnter2D(Collision2D collision)
+{
+    if (collision.gameObject.CompareTag("Obstacle"))
+    {
+        FindAnyObjectByType<GameManager>().TakeDamage();
+        Destroy(collision.gameObject);
+    }
+}
 }

@@ -13,7 +13,7 @@ public class ObstacleSpawner : MonoBehaviour
     private Vector2 spawnAreaMin;
     private Vector2 spawnAreaMax;
 
-    public float spawnOffset = 1f;  // distance hors écran pour spawn
+    public float spawnOffset = 2f;  // distance hors écran pour spawn
 
     void Start()
     {
@@ -36,31 +36,27 @@ public class ObstacleSpawner : MonoBehaviour
     {
         if (obstaclePrefabs.Length == 0) return;
 
-        // Récupérer les coins de la caméra en coordonnées monde
         Vector3 bottomLeft = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, mainCamera.nearClipPlane));
         Vector3 topRight = mainCamera.ViewportToWorldPoint(new Vector3(1, 1, mainCamera.nearClipPlane));
-
-        // Définir les zones hors caméra, par exemple à gauche, à droite, au-dessus ou en dessous
-        // On peut choisir aléatoirement une de ces 4 zones pour plus de variété
 
         int side = Random.Range(0, 4); // 0=left,1=right,2=top,3=bottom
         Vector2 spawnPos = Vector2.zero;
 
         switch (side)
         {
-            case 0: // gauche
+            case 0: // Left
                 spawnPos = new Vector2(bottomLeft.x - spawnOffset,
                                        Random.Range(bottomLeft.y, topRight.y));
                 break;
-            case 1: // droite
+            case 1: // Right
                 spawnPos = new Vector2(topRight.x + spawnOffset,
                                        Random.Range(bottomLeft.y, topRight.y));
                 break;
-            case 2: // haut
+            case 2: // Up
                 spawnPos = new Vector2(Random.Range(bottomLeft.x, topRight.x),
                                        topRight.y + spawnOffset);
                 break;
-            case 3: // bas
+            case 3: // Down
                 spawnPos = new Vector2(Random.Range(bottomLeft.x, topRight.x),
                                        bottomLeft.y - spawnOffset);
                 break;

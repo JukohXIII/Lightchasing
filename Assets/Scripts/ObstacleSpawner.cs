@@ -2,17 +2,23 @@ using UnityEngine;
 
 public class ObstacleSpawner : MonoBehaviour
 {
-    [Header("Obstacle Prefabs")]
     public GameObject[] obstaclePrefabs;
 
-    [Header("Spawn Settings")]
     public float spawnInterval = 2f;
     public float spawnIntervalVariance = 0.5f;
 
-    public Vector2 spawnAreaCenter = Vector2.zero;
-    public Vector2 spawnAreaSize = new(10f, 1f);
-
     private float nextSpawnTime;
+
+    private Camera mainCamera;
+    private Vector2 spawnAreaMin;
+    private Vector2 spawnAreaMax;
+
+    public float spawnOffset = 1f;  // distance hors écran pour spawn
+
+    void Start()
+    {
+        mainCamera = Camera.main;
+    }
 
     void Update()
     {
@@ -30,20 +36,37 @@ public class ObstacleSpawner : MonoBehaviour
     {
         if (obstaclePrefabs.Length == 0) return;
 
-        Vector2 spawnPos = spawnAreaCenter +
-                           new Vector2(
-                               Random.Range(-spawnAreaSize.x / 2, spawnAreaSize.x / 2),
-                               Random.Range(-spawnAreaSize.y / 2, spawnAreaSize.y / 2)
-                           );
+        // Récupérer les coins de la caméra en coordonnées monde
+        Vector3 bottomLeft = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, mainCamera.nearClipPlane));
+        Vector3 topRight = mainCamera.ViewportToWorldPoint(new Vector3(1, 1, mainCamera.nearClipPlane));
+
+        // Définir les zones hors caméra, par exemple à gauche, à droite, au-dessus ou en dessous
+        // On peut choisir aléatoirement une de ces 4 zones pour plus de variété
+
+        int side = Random.Range(0, 4); // 0=left,1=right,2=top,3=bottom
+        Vector2 spawnPos = Vector2.zero;
+
+        switch (side)
+        {
+            case 0: // gauche
+                spawnPos = new Vector2(bottomLeft.x - spawnOffset,
+                                       Random.Range(bottomLeft.y, topRight.y));
+                break;
+            case 1: // droite
+                spawnPos = new Vector2(topRight.x + spawnOffset,
+                                       Random.Range(bottomLeft.y, topRight.y));
+                break;
+            case 2: // haut
+                spawnPos = new Vector2(Random.Range(bottomLeft.x, topRight.x),
+                                       topRight.y + spawnOffset);
+                break;
+            case 3: // bas
+                spawnPos = new Vector2(Random.Range(bottomLeft.x, topRight.x),
+                                       bottomLeft.y - spawnOffset);
+                break;
+        }
 
         GameObject prefab = obstaclePrefabs[Random.Range(0, obstaclePrefabs.Length)];
-
         Instantiate(prefab, spawnPos, Quaternion.identity);
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawWireCube(spawnAreaCenter, spawnAreaSize);
     }
 }

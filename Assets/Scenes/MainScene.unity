@@ -18200,7 +18200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 626df0d921e028b4aa110258c46da61d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FadeManager
-  fadeImage: {fileID: 0}
+  fadeImage: {fileID: 1877999143}
   fadeDuration: 3
 --- !u!4 &2067429701
 Transform:

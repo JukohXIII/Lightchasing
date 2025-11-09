@@ -349,7 +349,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PressureController
   maxPressure: 200
   pressureIncreaseRate: 0
-  pressureDecreaseRate: 14
+  pressureDecreaseRate: 19.5
   safeAscendSpeedThreshold: 6.4
   maxDepth: 50
   fishRigidbody: {fileID: 0}

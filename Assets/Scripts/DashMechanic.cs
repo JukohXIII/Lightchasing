@@ -36,7 +36,7 @@ public class DashMechanic : MonoBehaviour
     private StaminaSystem staminaSystem;
     private PressureController pressureController;
     private Rigidbody2D rb; // 新增：物理刚体引用
-    private float dashStaminaCost = 50f;
+    private float dashStaminaCost = 25f;
     private Vector2 lastDashDirection;
 
     // Dash events - 保持完全一致

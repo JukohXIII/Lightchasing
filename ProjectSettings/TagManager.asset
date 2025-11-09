@@ -42,5 +42,8 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Totorial
+    uniqueID: 1812343127
+    locked: 0
   m_RenderingLayers:
   - Default

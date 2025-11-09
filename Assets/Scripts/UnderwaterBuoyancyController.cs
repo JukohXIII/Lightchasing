@@ -16,6 +16,11 @@ public class UnderwaterBuoyancyController : MonoBehaviour
     public float maxEffectiveDepth = 20f;    // Max depth for buoyancy effect
     public float depthExponent = 2f;         // Depth effect exponent
     
+    [Header("Scale Settings")]
+    public float minScale = 5f;
+    public float maxScale = 8f;
+    public float scaleSmoothing = 5f;
+    
     [Header("Runtime Variables")]
     [SerializeField] private float currentBuoyancy = 0f;
     [SerializeField] private float currentDepth = 0f;
@@ -42,6 +47,7 @@ public class UnderwaterBuoyancyController : MonoBehaviour
         HandleBuoyancyInput();
         OverrideBuoyancy();
         ApplyBuoyancyForce();
+        UpdateScaleFromBuoyancy();
     }
 
     void FixedUpdate()
@@ -92,6 +98,19 @@ public class UnderwaterBuoyancyController : MonoBehaviour
         
         // Clamp depth multiplier to avoid zero or negative values
         depthMultiplier = Mathf.Clamp(depthMultiplier, 0.1f, 1f);
+    }
+
+    private void UpdateScaleFromBuoyancy()
+    {
+        // On normalise currentBuoyancy entre -3 et +3 vers 0..1
+        float normalized = Mathf.InverseLerp(-3f, 3f, currentBuoyancy);
+
+        // On map 0..1 vers minScale..maxScale
+        float targetScale = Mathf.Lerp(minScale, maxScale, normalized);
+
+        // Application douce du scale
+        Vector3 newScale = Vector3.one * targetScale;
+        transform.localScale = Vector3.Lerp(transform.localScale, newScale, Time.deltaTime * scaleSmoothing);
     }
 
     /// <summary>

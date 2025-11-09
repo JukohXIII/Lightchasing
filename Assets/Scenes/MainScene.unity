@@ -272,6 +272,9 @@ MonoBehaviour:
   surfaceDepth: 0
   maxEffectiveDepth: 20
   depthExponent: 2
+  minScale: 5
+  maxScale: 8
+  scaleSmoothing: 5
   currentBuoyancy: 0
   currentDepth: 0
   depthMultiplier: 1
@@ -350,7 +353,7 @@ MonoBehaviour:
   maxPressure: 200
   pressureIncreaseRate: 0
   pressureDecreaseRate: 19.5
-  safeAscendSpeedThreshold: 6.4
+  safeAscendSpeedThreshold: 4.8
   maxDepth: 50
   fishRigidbody: {fileID: 0}
   pressureBarFill: {fileID: 870757571}
@@ -15959,7 +15962,7 @@ MonoBehaviour:
   spawnOffset: 1.5
   safeRadius: 1.5
   maxSpawnInterval: 3
-  minSpawnInterval: 0.7
+  minSpawnInterval: 0.3
   spawnIntervalVariance: 0.3
   speedIncreasePerHeight: 0.003
 --- !u!4 &1782085969

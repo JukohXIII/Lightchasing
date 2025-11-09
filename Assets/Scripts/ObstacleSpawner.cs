@@ -11,8 +11,8 @@ public class ObstacleSpawner : MonoBehaviour
     public float safeRadius = 1.5f;
 
     [Header("Spawn Settings")]
-    public float maxSpawnInterval = 3f;       // intervalle début de jeu
-    public float minSpawnInterval = 0.7f;     // intervalle difficulté max
+    public float maxSpawnInterval = 3f;      
+    public float minSpawnInterval = 0.7f;  
     public float spawnIntervalVariance = 0.3f;
 
     [Header("Difficulty")]
@@ -29,9 +29,6 @@ public class ObstacleSpawner : MonoBehaviour
     {
         float height = playerTransform.position.y;
 
-        // -----------------------------
-        // 1. Intervalle dynamique avec courbe exponentielle
-        // -----------------------------
         float t = Mathf.InverseLerp(0, 300, height);
         t = Mathf.Pow(t, 1.8f); // courbe exponentielle douce pour progression plus naturelle
 
@@ -51,11 +48,6 @@ public class ObstacleSpawner : MonoBehaviour
     void SpawnObstacleWithDifficulty(float spawnDensity)
     {
         SpawnObstacle();
-
-        // -----------------------------
-        // 2. Chance de double spawn basée sur la densité réelle
-        // -----------------------------
-        // spawnDensity = 0 début de partie, spawnDensity = 1 en fin
         float doubleSpawnChance = spawnDensity * spawnDensity * 0.5f;
 
         if (Random.value < doubleSpawnChance)
@@ -104,7 +96,6 @@ public class ObstacleSpawner : MonoBehaviour
                 GameObject prefab = obstaclePrefabs[Random.Range(0, obstaclePrefabs.Length)];
                 GameObject obj = Instantiate(prefab, spawnPos, Quaternion.identity);
 
-                // Applique l’augmentation de vitesse selon la hauteur
                 Obstacle mover = obj.GetComponent<Obstacle>();
                 if (mover != null)
                 {

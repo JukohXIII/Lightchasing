@@ -349,8 +349,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PressureController
   maxPressure: 200
   pressureIncreaseRate: 0
-  pressureDecreaseRate: 10
-  safeAscendSpeedThreshold: 5
+  pressureDecreaseRate: 14
+  safeAscendSpeedThreshold: 6.4
   maxDepth: 50
   fishRigidbody: {fileID: 0}
   pressureBarFill: {fileID: 870757571}
@@ -457,13 +457,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fff441cb74d27b42817d85aee103439, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DashMechanic
-  dashImpulseForce: 30
+  dashImpulseForce: 22
   dashDuration: 0.3
-  dashCooldown: 1
+  dashCooldown: 0.8
   maxDashCharges: 2
-  chargeRecoveryTime: 2
-  inertiaForce: 15
-  inertiaDuration: 2
+  chargeRecoveryTime: 1
+  inertiaForce: 12
+  inertiaDuration: 0.5
   inertiaForceCurve:
     serializedVersion: 2
     m_Curve: []

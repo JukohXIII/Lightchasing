@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI; // or TMPro if you use TextMeshPro
@@ -11,9 +12,9 @@ public class GameManager : MonoBehaviour
     public GameObject fadePanel;
     private bool isVictory = false;
     public int maxLives = 3;
-    private int currentLives;
+    [SerializeField] private int currentLives;
     private bool isGameOver = false;
-    public Text livesText;
+    public GameObject hearts;
 
     void Start()
     {
@@ -45,8 +46,20 @@ public class GameManager : MonoBehaviour
 
     private void UpdateLivesUI()
     {
-        if (livesText != null)
-            livesText.text = "" + currentLives;
+        if (currentLives == 2)
+        {
+            hearts.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject.SetActive(false);
+        }
+        else if (currentLives == 1)
+        {
+            hearts.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.SetActive(false);
+        }
+        else if (currentLives <= 0 || currentLives == 0)
+        {
+            hearts.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.SetActive(false);
+        }
+        
+
     }
 
     void OnEnable()

@@ -2,27 +2,24 @@ using UnityEngine;
 
 public class ObstacleSpawner : MonoBehaviour
 {
+    [Header("Obstacles")]
     public GameObject[] obstaclePrefabs;
-
     public Transform playerTransform;
-
-    public float baseSpawnInterval = 2f;
-    public float spawnIntervalVariance = 0.5f;
-
-    private float nextSpawnTime;
-
-    public float difficultyScale = 0.02f; 
-    // Plus cette valeur est grande, plus la difficulté augmente vite
 
     private Camera mainCamera;
     public float spawnOffset = 2f;
-
     public float safeRadius = 1.5f;
-    public float spawnInterval = 2f;
 
-    private Vector2 spawnAreaMin;
-    private Vector2 spawnAreaMax;
-    
+    [Header("Spawn Settings")]
+    public float maxSpawnInterval = 3f;       // intervalle début de jeu
+    public float minSpawnInterval = 0.7f;     // intervalle difficulté max
+    public float spawnIntervalVariance = 0.3f;
+
+    [Header("Difficulty")]
+    public float speedIncreasePerHeight = 0.003f;
+
+    private float nextSpawnTime;
+
     void Start()
     {
         mainCamera = Camera.main;
@@ -30,13 +27,19 @@ public class ObstacleSpawner : MonoBehaviour
 
     void Update()
     {
-        float difficulty = CalculateDifficulty();
+        float height = playerTransform.position.y;
 
-        float currentInterval = Mathf.Max(0.2f, baseSpawnInterval / difficulty);
+        // -----------------------------
+        // 1. Intervalle dynamique avec courbe exponentielle
+        // -----------------------------
+        float t = Mathf.InverseLerp(0, 300, height);
+        t = Mathf.Pow(t, 1.8f); // courbe exponentielle douce pour progression plus naturelle
+
+        float currentInterval = Mathf.Lerp(maxSpawnInterval, minSpawnInterval, t);
 
         if (Time.time >= nextSpawnTime)
         {
-            SpawnObstacle();
+            SpawnObstacleWithDifficulty(t);
 
             nextSpawnTime = Time.time + Random.Range(
                 currentInterval - spawnIntervalVariance,
@@ -45,11 +48,20 @@ public class ObstacleSpawner : MonoBehaviour
         }
     }
 
-    float CalculateDifficulty()
+    void SpawnObstacleWithDifficulty(float spawnDensity)
     {
-        float height = playerTransform.position.y;
+        SpawnObstacle();
 
-        return 1f + (height * difficultyScale);
+        // -----------------------------
+        // 2. Chance de double spawn basée sur la densité réelle
+        // -----------------------------
+        // spawnDensity = 0 début de partie, spawnDensity = 1 en fin
+        float doubleSpawnChance = spawnDensity * spawnDensity * 0.5f;
+
+        if (Random.value < doubleSpawnChance)
+        {
+            SpawnObstacle();
+        }
     }
 
     void SpawnObstacle()
@@ -60,38 +72,46 @@ public class ObstacleSpawner : MonoBehaviour
         Vector3 topRight = mainCamera.ViewportToWorldPoint(new Vector3(1, 1, mainCamera.nearClipPlane));
 
         int attempts = 0;
-        const int maxAttempts = 10;  // Pour éviter boucle infinie
+        const int maxAttempts = 10;
 
         while (attempts < maxAttempts)
         {
-            int side = Random.Range(0, 4); // 0=left,1=right,2=top,3=bottom
+            int side = Random.Range(0, 4);
             Vector2 spawnPos = Vector2.zero;
 
             switch (side)
             {
-                case 0: // Left
+                case 0:
                     spawnPos = new Vector2(bottomLeft.x - spawnOffset,
-                                        Random.Range(bottomLeft.y, topRight.y));
+                                           Random.Range(bottomLeft.y, topRight.y));
                     break;
-                case 1: // Right
+                case 1:
                     spawnPos = new Vector2(topRight.x + spawnOffset,
-                                        Random.Range(bottomLeft.y, topRight.y));
+                                           Random.Range(bottomLeft.y, topRight.y));
                     break;
-                case 2: // Up
+                case 2:
                     spawnPos = new Vector2(Random.Range(bottomLeft.x, topRight.x),
-                                        topRight.y + spawnOffset);
+                                           topRight.y + spawnOffset);
                     break;
-                case 3: // Down
+                case 3:
                     spawnPos = new Vector2(Random.Range(bottomLeft.x, topRight.x),
-                                        bottomLeft.y - spawnOffset);
+                                           bottomLeft.y - spawnOffset);
                     break;
             }
 
             if (Vector2.Distance(spawnPos, playerTransform.position) > safeRadius)
             {
                 GameObject prefab = obstaclePrefabs[Random.Range(0, obstaclePrefabs.Length)];
-                Instantiate(prefab, spawnPos, Quaternion.identity);
-                return;  // Spawn réussi, on sort
+                GameObject obj = Instantiate(prefab, spawnPos, Quaternion.identity);
+
+                // Applique l’augmentation de vitesse selon la hauteur
+                Obstacle mover = obj.GetComponent<Obstacle>();
+                if (mover != null)
+                {
+                    mover.speedMultiplier = 1f + playerTransform.position.y * speedIncreasePerHeight;
+                }
+
+                return;
             }
 
             attempts++;

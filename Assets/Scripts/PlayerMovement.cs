@@ -83,11 +83,16 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void OnCollisionEnter2D(Collision2D collision)
-{
-    if (collision.gameObject.CompareTag("Obstacle"))
     {
-        FindAnyObjectByType<GameManager>().TakeDamage();
-        Destroy(collision.gameObject);
+        if (collision.gameObject.CompareTag("Obstacle"))
+        {
+            FindAnyObjectByType<GameManager>().TakeDamage();
+            Destroy(collision.gameObject);
+        }
+
+        if(collision.gameObject.CompareTag("Finish"))
+        {
+            FindAnyObjectByType<GameManager>().HandleVictory();
+        }
     }
-}
 }

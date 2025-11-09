@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI; // or TMPro if you use TextMeshPro
@@ -6,6 +7,9 @@ public class GameManager : MonoBehaviour
 {
     public PressureController pressureController;  // Reference to your pressure script
     public GameObject gameOverText;                 // Reference to your UI Text GameObject
+    public GameObject finishText;
+    public GameObject fadePanel;
+    private bool isVictory = false;
     public int maxLives = 3;
     private int currentLives;
     private bool isGameOver = false;
@@ -16,7 +20,11 @@ public class GameManager : MonoBehaviour
         currentLives = maxLives;
         if (gameOverText != null)
             gameOverText.SetActive(false);
-
+        if (finishText != null)
+            finishText.SetActive(false);
+        if (fadePanel != null)
+            fadePanel.SetActive(false);
+            
         UpdateLivesUI();
     }
 
@@ -63,9 +71,29 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f; // Pause the game
     }
 
+    public void HandleVictory()
+    {
+        if (isVictory || isGameOver) return;
+
+        isVictory = true;
+        StartCoroutine(VictorySequence());
+    }
+
+    private IEnumerator VictorySequence()
+        {
+            yield return StartCoroutine(FadeManager.Instance.FadeToBlack());
+
+            Time.timeScale = 0f;
+
+            if (finishText != null)
+                finishText.SetActive(true);
+            if (fadePanel != null)
+                fadePanel.SetActive(false);
+        }
+
     void Update()
     {
-        if (isGameOver && Input.GetKeyDown(KeyCode.Space))
+        if ((isGameOver || isVictory) && Input.GetKeyDown(KeyCode.Space))
         {
             RestartGame();
         }
